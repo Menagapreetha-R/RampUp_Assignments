@@ -1,0 +1,61 @@
+user profile
+db: myprofile
+tables: user,contact info,address
+user colums: user_id,user_name,date_of_birth, age
+contact info: phoneno,email
+address: streetno,city,state
+                   Insert
+CREATE DEFINER=`root`@`localhost` PROCEDURE `user_insert`()
+BEGIN
+insert into user (user_id,user_name,date_of_birth,age)
+VALUES('1','PREETHA','26-07-1990','30');
+END       
+          Update
+CREATE DEFINER=`root`@`localhost` PROCEDURE `user_update`()
+BEGIN
+update myprofile.user
+set age = '35'
+where user_id = '1';
+ END   
+        Display
+CREATE DEFINER=`root`@`localhost` PROCEDURE `user_display`()
+BEGIN
+SELECT user_name, date_of_birth
+from user
+WHERE (age=30);
+     
+     Delete  
+CREATE DEFINER=`root`@`localhost` PROCEDURE `user_delete`()
+BEGIN
+DELETE FROM user
+WHERE user_id= '1';
+
+END
+ 
+---for checking and  user updating details for adult,senior,child
+
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `user_procedure`(
+IN user_id VARCHAR(30),
+OUT user_status VARCHAR(30))
+BEGIN
+DECLARE  age INT DEFAULT 0;
+SELECT age
+INTO age
+FROM user
+WHERE user_id= user_id;
+  IF age >=0 AND age <= 18 THEN
+UPDATE  user SET user_status = 'child' WHERE user_id= puser_id;
+    ELSEIF age < 60 AND age > 18 THEN
+    UPDATE  user    SET user_status  = 'adult' WHERE user_id= puser_id;
+    ELSE
+     UPDATE  user   SET user_status = 'senior'  WHERE user_id= puser_id;
+    END IF;
+    IF age >=0 AND age <= 18 THEN
+SET user_status = 'child' ;
+    ELSEIF age < 60 AND age > 18 THEN
+    SET user_status  = 'adult';
+    ELSE
+SET user_status = 'senior';
+    END IF;
+END
